@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node
 
 COPY ./src/package.json ./
 RUN npm config set package-lock false
