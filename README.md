@@ -1,6 +1,6 @@
 ## Run
 docker run -it -d --rm --name qrcode-api -p 3000:3000 midnightcodr/qrcode-api:latest
-## Examples
+## Encode into qrcode
 1. Getting qrcode (outpunt in png format)
 ```
 curl  http://localhost:3000/t2q?info=hello+world > /tmp/out.png
