@@ -20,22 +20,20 @@ const t2q = (request, h) => {
 
 const q2t = (request, h) => {
   const { upfile } = request.payload
-  const chunks = []
-  upfile.on('data', chunk => chunks.push(chunk))
+  const png = new PNG({
+    fileType: -1
+  })
   return new Promise(resolve => {
-    return upfile.on('end', () => {
-      const content = Buffer.concat(chunks)
-      const png = PNG.sync.read(content)
+    png.on('parsed', () => {
       const { data, width, height } = png
       const code = jsQR(data, width, height)
-      return resolve(
-        h.response({
-          info: code.data,
-          width,
-          height
-        })
-      )
+      return resolve({
+        info: code.data,
+        width,
+        height
+      })
     })
+    upfile.pipe(png)
   })
 }
 
@@ -61,11 +59,6 @@ server.route([
     path: '/q2t',
     method: 'POST',
     options: {
-      validate: {
-        payload: Joi.object({
-          upfile: Joi.object().required()
-        })
-      },
       payload: {
         maxBytes: 10485760 * 2, // 20MB
         output: 'stream',
