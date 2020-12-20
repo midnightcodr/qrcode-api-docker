@@ -13,4 +13,6 @@ curl -F 'upfile=@/tmp/out.png' http://localhost:3000/q2t
 # {"info":"hello world","width":400,"height":400}
 ```
 
-
+## Links
+- [Docker hub image](https://hub.docker.com/repository/docker/midnightcoder/qrcode-api)
+- [Link to this repo on github](https://github.com/midnightcodr/qrcode-api-docker)
