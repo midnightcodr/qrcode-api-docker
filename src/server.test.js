@@ -1,6 +1,7 @@
 /* eslint-env jest */
 const { init } = require('./server')
 const fs = require('fs')
+const FormData = require('form-data')
 
 let server
 
@@ -30,4 +31,21 @@ test('encode text into image', async () => {
   const existing = fs.readFileSync('./mocks/hello.png', { encoding: 'base64' })
   expect(statusCode).toBe(200)
   expect(Buffer.from(rawPayload).toString('base64')).toBe(existing)
+})
+
+test('decode qrcode into text', async () => {
+  expect.assertions(2)
+  const form = new FormData()
+  form.append('upfile', fs.createReadStream('./mocks/hello.png'))
+  process.nextTick(() => {
+    form.resume()
+  })
+  const { statusCode, result } = await server.inject({
+    method: 'POST',
+    url: '/q2t',
+    payload: form,
+    headers: form.getHeaders()
+  })
+  expect(statusCode).toBe(200)
+  expect(result.info).toBe('hello')
 })
