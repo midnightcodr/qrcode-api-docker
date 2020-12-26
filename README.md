@@ -1,5 +1,5 @@
 ## Run
-docker run -it -d --rm --name qrcode-api -p 3000:3000 midnightcodr/qrcode-api:latest
+docker run -it -d --rm --name qrcode-api -p 3000:3000 midnightcoder/qrcode-api:latest
 ## Encode into qrcode
 1. Getting qrcode (outpunt in png format)
 ```
