@@ -1,16 +1,11 @@
 /* eslint-env jest */
-const { init } = require('./server')
+const { server } = require('./index')
 const fs = require('fs')
 const FormData = require('form-data')
 
-let server
-
-beforeAll(async () => {
-  server = await init()
-})
-
-afterAll(async () => {
-  await server.stop()
+afterAll(done => {
+  server.events.on('stop', done)
+  server.stop()
 })
 
 test('encode text into image: invalid usage', async () => {
